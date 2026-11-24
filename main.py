@@ -15,14 +15,19 @@ LINE = (
 )
 
 
-def main() -> None:
-    # Self-check the gate before writing: 1-200 UTF-8 characters, not only
-    # white space. The line is 121 characters: the setup names the office
-    # complaint everyone recognises (a meeting that should have been an
-    # email), and the punchline turns it back on itself — the email would
-    # have been a meeting too, so they schedule a meeting about the email.
-    if not 1 <= len(LINE) <= 200 or not LINE.strip():
+def validate_line(line: str) -> str:
+    # Gate: 1-200 UTF-8 characters, not only white space. The line is 121
+    # characters: the setup names the office complaint everyone recognises
+    # (a meeting that should have been an email), and the punchline turns
+    # it back on itself — the email would have been a meeting too, so they
+    # schedule a meeting about the email.
+    if not 1 <= len(line) <= 200 or not line.strip():
         raise SystemExit("line fails the 1-200 character gate")
+    return line
+
+
+def main() -> None:
+    validate_line(LINE)
     output_dir = Path(os.environ.get("MAKEFUN_OUTPUT_DIR", "/output"))
     output_dir.mkdir(parents=True, exist_ok=True)
     entry_path = output_dir / "entry.txt"
